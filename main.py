@@ -1,5 +1,8 @@
+from algorithm import MagnetSolverDFS
+from algorithm2 import MagnetSolverBFS
 from board import Board, place_piece
 from celles import EmptyCell, GreyIron, PurpleMagnet, RedMagnet, WhitePiece
+from ucs_algorithm import ucs_solve
 
 class Level:
     def __init__(self, row, col, placements):
@@ -47,7 +50,12 @@ level_data = [
 
 
 def main():
-   
+    print("Choose a solving method:")
+    print("1. User input")
+    print("2. DFS (Depth-First Search)")
+    print("3. BFS (Breadth-First Search)")
+    method_choice = int(input("Enter your choice (1, 2, or 3): "))
+
     level_choice = int(input("Choose a level (1 to 25): "))
 
     if 1 <= level_choice <= 25:
@@ -60,6 +68,28 @@ def main():
 
     board = level.board
     board.print_board()
-    board.magnet_selector() 
+    grid = level.board.grid
+
+    if method_choice == 1:
+        # User input method
+        while True:
+             board.magnet_selector()
+            
+    elif method_choice == 2:
+        # DFS method
+        solver = MagnetSolverDFS(grid)
+        solver.dfs_solve()
+    elif method_choice == 3:
+        # BFS method
+        solver = MagnetSolverBFS(grid)
+        solver.bfs_solve()
+    elif method_choice == 4:
+        # UCS method
+        solver = ucs_solve(grid)
+        solver.uniform_cost_search()    
+    else:
+        print("Invalid choice. Please restart the program and choose a valid method.")
+
 if __name__ == "__main__":
     main()
+
